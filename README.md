@@ -26,10 +26,10 @@ pip install -r requirements.txt
 
 You need to provide your OpenAI API key for the application to work. This can be done by creating a `config.ini` file in the project directory with the following structure:
 
-\```ini
+```ini
 [DEFAULT]
 OPENAI_API_KEY = your_openai_api_key
-\```
+```
 
 Replace `your_openai_api_key` with your actual OpenAI API key.
 
@@ -37,15 +37,14 @@ Replace `your_openai_api_key` with your actual OpenAI API key.
 
 To run the ChatBot application, simply run the script with Python:
 
-\```bash
-python main.py
-\```
+```bash
+python3 main.py
+```
 
 A window will pop up. Type in your message in the bottom text field and press Enter. The application will send your message to the OpenAI API and display the response in the top text area.
 
 ## 📜 License
 
 This project is licensed under the terms of the MIT license.
-\```
 
  
