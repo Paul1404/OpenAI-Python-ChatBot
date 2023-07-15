@@ -22,10 +22,12 @@ def get_response(prompt):
 
     # Call OpenAI's text completion endpoint
     response = openai.Completion.create(
-        engine="text-davinci-002",
-        prompt=prompt,
+        model="gpt-3.5-turbo",
         temperature=0.5,
-        max_tokens=100
+        max_tokens=100,
+        message=[
+            {"role": "user", "content": prompt}
+        ]
     )
 
     # Extract and return the text from the first choice in the response
