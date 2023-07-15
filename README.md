@@ -7,7 +7,7 @@ This is a simple ChatBot application that uses the OpenAI API 🧠 to generate r
 1. Clone the repository to your local machine:
 
 ```bash
-git clone https://github.com/Paul1404/OpenAI-Python-ChatBot
+git clone https://github.com/Paul1404/OpenAI-Python-ChatBot.git
 ```
 
 2. Navigate to the project directory:
