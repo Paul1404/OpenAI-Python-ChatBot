@@ -95,4 +95,4 @@ chat_bot = ChatBot()
 chat_bot.show()
 
 # Start the application's event loop
-sys.exit(app.exec_())
+sys.exit(app.exec())
