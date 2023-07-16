@@ -9,13 +9,28 @@ from datetime import datetime
 
 
 class OpenAIAgent:
+    """
+    A class to interact with OpenAI's GPT-3 model.
+    """
     def __init__(self):
+        """
+        Initialize the OpenAIAgent class.
+        """
         # Read API key from configuration file
         self.config = configparser.ConfigParser()
         self.config.read('config.ini')
         openai.api_key = self.config['DEFAULT']['OPENAI_API_KEY']
 
     def get_response(self, message):
+        """
+        Gets a response from OpenAI's GPT-3 model.
+        
+        Args:
+            message (str): The message to which GPT-3 should respond.
+
+        Returns:
+            str: The response from GPT-3.
+        """
         try:
             # Call OpenAI's chat completion endpoint
             response = openai.ChatCompletion.create(
@@ -39,20 +54,40 @@ class OpenAIAgent:
 
 
 class Worker(QThread):
+    """
+    A QThread worker to interact with OpenAI's GPT-3 model in a non-blocking way.
+    """
     responseReady = Signal(str)
 
     def __init__(self, agent, message):
+        """
+        Initialize the Worker class.
+
+        Args:
+            agent (OpenAIAgent): The agent that interacts with GPT-3.
+            message (str): The message to which GPT-3 should respond.
+        """
         super(Worker, self).__init__()
         self.agent = agent
         self.message = message
 
     def run(self):
+        """
+        The main function that is run when the thread starts.
+        It gets a response from GPT-3 and emits a signal when the response is ready.
+        """
         response = self.agent.get_response(self.message)
         self.responseReady.emit(response)
 
 
 class ChatBot(QWidget):
+    """
+    The main GUI class for the chatbot.
+    """
     def __init__(self):
+        """
+        Initialize the ChatBot class.
+        """
         super().__init__()
 
         # Initialize the user interface
@@ -65,6 +100,9 @@ class ChatBot(QWidget):
         self.resize(800, 600)  # Resize the window to 800 pixels wide and 600 pixels tall
 
     def init_ui(self):
+        """
+        Initializes the user interface.
+        """
         self.text_edit = QTextEdit()
         self.text_edit.setReadOnly(True)  # Make the text edit read-only
 
@@ -83,6 +121,9 @@ class ChatBot(QWidget):
         self.setLayout(layout)
 
     def send_message(self):
+        """
+        Sends a message to GPT-3 and displays the response.
+        """
         message = self.line_edit.text().strip()  # Trim leading/trailing whitespace
 
         if not message:  # Ignore empty messages
@@ -102,6 +143,12 @@ class ChatBot(QWidget):
         self.worker.start()
 
     def display_response(self, response):
+        """
+        Displays the response from GPT-3.
+
+        Args:
+            response (str): The response from GPT-3.
+        """
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")  # Get the current timestamp
         self.text_edit.append(f"{timestamp} Bot: {response}")
         self.write_to_history(timestamp, "Bot", response)
@@ -110,6 +157,14 @@ class ChatBot(QWidget):
         self.text_edit.moveCursor(QTextCursor.End)
 
     def write_to_history(self, timestamp, role, message):
+        """
+        Writes a message to the conversation history.
+
+        Args:
+            timestamp (str): The timestamp of the message.
+            role (str): The role of the sender ("You" or "Bot").
+            message (str): The message text.
+        """
         # Load the existing history, if any
         try:
             with open("conversation_history.json", "r") as file:
