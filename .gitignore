@@ -153,3 +153,4 @@ cython_debug/
 
 # .gitignore
 config.ini
+conversation_history.json
